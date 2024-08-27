@@ -3,6 +3,9 @@ import appRoutes from './routes/appRoutes.js'
 import dotenv from 'dotenv';
 import { mongoose } from 'mongoose';
 import bodyParser from 'body-parser'
+ 
+// Cors permite que un cliente se conecte a otro sv para cambio de recursos
+import cors from 'cors'
 
 dotenv.config();
 
@@ -18,6 +21,9 @@ const app = express();
 // BODY PARSER
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+
+// Cors
+app.use(cors())
 
 // RUTAS
 app.use('/', appRoutes)
