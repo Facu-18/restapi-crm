@@ -20,21 +20,33 @@ const validateCliente = [
  };
 
 
-// agrega cliente
-export const nuevoCliente = async (req,res, next)=>{
-   const cliente = new Clientes(req.body)
-
-   try{
-       // almacenar el registro
+// Agrega cliente
+export const nuevoCliente = [
+   validateCliente,
+   async (req, res, next) => {
+     const errors = validationResult(req);
+     if (!errors.isEmpty()) {
+       return res.status(400).json({ errors: errors.array() });
+     }
+ 
+     const cliente = new Clientes(req.body);
+ 
+     try {
        await cliente.save();
-       res.json({mensaje: 'se agrego'})
-   
-    }catch(error){
-    res.send(error);
-    next();
+       res.json({ mensaje: 'Cliente agregado correctamente' });
+     } catch (error) {
+       if (error.code === 11000) {
+         return res.status(400).json({ 
+           errors: [{ msg: 'El cliente ya está registrado' }] 
+         });
+       }
+       res.status(500).json({ 
+         errors: [{ msg: 'Error al agregar el cliente' }] 
+       });
+     }
    }
-}
-
+ ];
+ 
 export const getCliente = async (req,res,next)=>{
    try{
       const clientes = await Clientes.find({})
