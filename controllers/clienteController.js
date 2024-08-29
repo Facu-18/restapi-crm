@@ -1,6 +1,26 @@
 import Clientes from "../models/Cliente.js";
+import { body, validationResult } from 'express-validator';
 
-//agrega cliente
+// Middleware de validación
+const validateCliente = [
+   body('nombre').trim().isLength({ min: 2 }).escape().withMessage('El nombre debe tener al menos 2 caracteres'),
+   body('apellido').trim().isLength({ min: 2 }).escape().withMessage('El apellido debe tener al menos 2 caracteres'),
+   body('empresa').trim().isLength({ min: 1 }).escape().withMessage('La empresa es requerida'),
+   body('email').trim().isEmail().normalizeEmail().withMessage('Email no válido'),
+   body('telefono').trim().isMobilePhone().withMessage('Número de teléfono no válido'),
+ ];
+ 
+ // Función para manejar errores de validación
+ const handleValidationErrors = (req, res, next) => {
+   const errors = validationResult(req);
+   if (!errors.isEmpty()) {
+     return res.status(400).json({ errors: errors.array() });
+   }
+   next();
+ };
+
+
+// agrega cliente
 export const nuevoCliente = async (req,res, next)=>{
    const cliente = new Clientes(req.body)
 
@@ -10,7 +30,7 @@ export const nuevoCliente = async (req,res, next)=>{
        res.json({mensaje: 'se agrego'})
    
     }catch(error){
-    console.log(error);
+    res.send(error);
     next();
    }
 }
