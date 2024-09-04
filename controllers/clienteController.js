@@ -91,7 +91,7 @@ export const uptadeCliente = async (req,res,next)=>{
       }
 
    }catch(error){
-      console.log(error)
+      res.send(error);
       next();
    }
 }

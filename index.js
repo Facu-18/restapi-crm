@@ -28,5 +28,8 @@ app.use(cors())
 // RUTAS
 app.use('/', appRoutes)
 
+// carpeta publica
+app.use(express.static('uploads'))
+
 // PUERTO
 app.listen(process.env.PORT)
