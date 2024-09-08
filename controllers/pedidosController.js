@@ -60,6 +60,6 @@ export const deletePedido = async(req,res,next)=>{
         res.json({mensaje: 'el pedido se ha eliminado correctamente'})
     }catch(error){
         console.log(error);
-        next()
+        next();
     }
 }

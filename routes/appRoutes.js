@@ -27,7 +27,7 @@ const router = express.Router()
  router.post('/productos/busqueda/:query', buscarProducto)
 
  // Pedidos
- router.post('/pedidos', nuevoPedido)
+ router.post('/pedidos/nuevo/:id', nuevoPedido)
  router.get('/pedidos', getPedidos)
  router.get('/pedidos/:id', getPedidosId)
  router.put('/pedidos/:id', updatePedido)
