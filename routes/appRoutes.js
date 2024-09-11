@@ -4,12 +4,15 @@ import { nuevoProducto, subirImagen, getProductos, getProductoId, updateProducto
 import {nuevoPedido, getPedidos, getPedidosId, updatePedido, deletePedido} from '../controllers/pedidosController.js'
 import { nuevoUsuario, iniciarSesion } from '../controllers/usuariosController.js'
 
+// importar middleware para proteger rutas
+import  authenticateToken  from '../middleware/auth.js'
+
 const router = express.Router()
 
  // Agregar y obtener clientes
- router.post('/clientes', nuevoCliente)
- router.get('/clientes', getCliente)
- router.get('/clientes/:id', getClienteId)
+ router.post('/clientes', authenticateToken, nuevoCliente)
+ router.get('/clientes', authenticateToken, getCliente)
+ router.get('/clientes/:id', authenticateToken, getClienteId)
 
  // Actualizar clientes
  router.put('/clientes/:id', uptadeCliente)
