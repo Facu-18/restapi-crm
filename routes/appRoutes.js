@@ -2,6 +2,7 @@ import express, { Router } from 'express'
 import {nuevoCliente, getCliente, getClienteId, uptadeCliente, deleteCliente} from '../controllers/clienteController.js'
 import { nuevoProducto, subirImagen, getProductos, getProductoId, updateProducto, deleteProducto, buscarProducto} from '../controllers/productosController.js'
 import {nuevoPedido, getPedidos, getPedidosId, updatePedido, deletePedido} from '../controllers/pedidosController.js'
+import { nuevoUsuario, iniciarSesion } from '../controllers/usuariosController.js'
 
 const router = express.Router()
 
@@ -32,5 +33,10 @@ const router = express.Router()
  router.get('/pedidos/:id', getPedidosId)
  router.put('/pedidos/:id', updatePedido)
  router.delete('/pedidos/:id', deletePedido)
+
+ // Usuarios
+ router.post('/usuarios/nuevo', nuevoUsuario)
+ router.post('/usuarios/iniciar-sesion',  iniciarSesion)
+
 
 export default router;
