@@ -11,7 +11,7 @@ dotenv.config();
 
 // CONECTAR MOGO
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/restapis', {
+mongoose.connect(process.env.URL_DB, {
     useNewUrlParser: true
 })
 
@@ -22,8 +22,22 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
+// definir un dominio(s) para rebicir peticiones
+const whitelist = [process.env.URL_BACK + process.env.PORT]
+const corsOptions = {
+    origin: (origin, callbakc)=>{
+        // revisar si la peticion esta en whitelist
+        const existe = whitelist.some( dominio => dominio === origin)
+        if(existe){
+            callbakc(null, true)
+        }else{
+            callbakc(new Error('No autorizado'))
+        }
+    }
+}
+
 // Cors
-app.use(cors())
+app.use(cors(corsOptions))
 
 // RUTAS
 app.use('/', appRoutes)
